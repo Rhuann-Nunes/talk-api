@@ -11,7 +11,13 @@ load_dotenv()
 app = FastAPI(
     title="Talk API",
     description="API para criação e interação com bots usando RAG e LLMs",
-    version="1.0.0"
+    version="1.0.0",
+    servers=[
+        {
+            "url": "https://web-production-1c6c.up.railway.app",
+            "description": "Production server"
+        }
+    ]
 )
 
 # Configure CORS
