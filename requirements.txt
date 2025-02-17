@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+python-dotenv
+openai
+groq
+langchain
+langchain_openai
+langchain-community
+langchain-groq
+qdrant-client
+tiktoken
+supabase
+pydantic
