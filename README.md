@@ -1,31 +1,31 @@
 # Supabase Projects and Tasks RAG
 
-Este Ã© um sistema de RAG (Retrieval-Augmented Generation) que permite consultar informaÃ§Ãµes sobre projetos e tarefas armazenados no Supabase. O sistema utiliza embeddings e um modelo Groq para fornecer respostas contextualizadas sobre os dados.
+Este é um sistema de RAG (Retrieval-Augmented Generation) que permite consultar informações sobre projetos e tarefas armazenados no Supabase. O sistema utiliza embeddings e um modelo Groq para fornecer respostas contextualizadas sobre os dados.
 
 ## Requisitos
 
 - Python 3.8+
 - Acesso ao Supabase
-- Acesso Ã  API da Groq
-- Acesso Ã  API do OpenAI (para embeddings)
+- Acesso à API da Groq
+- Acesso à API do OpenAI (para embeddings)
 - Qdrant (para armazenar e consultar vetores)
 
-## InstalaÃ§Ã£o
+## Instalação
 
-1. Clone o repositÃ³rio:
+1. Clone o repositório:
 
 ```bash
 git clone <URL_DO_REPOSITORIO>
 cd <NOME_DO_REPOSITORIO>
 ```
 
-2. Instale as dependÃªncias:
+2. Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Crie um arquivo `.env` com as seguintes variÃ¡veis:
+3. Crie um arquivo `.env` com as seguintes variáveis:
 
 ```
 GROQ_API_KEY=sua_chave_groq
@@ -41,37 +41,37 @@ EMBEDDING_MODEL_NAME=text-embedding-3-small
 
 ## Estrutura das tabelas no Supabase
 
-O sistema espera que vocÃª tenha tabelas no Supabase para projetos e tarefas. A estrutura especÃ­fica das tabelas Ã© flexÃ­vel, pois o sistema manipula qualquer conjunto de colunas encontradas nas tabelas.
+O sistema espera que você tenha tabelas no Supabase para projetos e tarefas. A estrutura específica das tabelas é flexível, pois o sistema manipula qualquer conjunto de colunas encontradas nas tabelas.
 
-Exemplo de estrutura mÃ­nima recomendada:
+Exemplo de estrutura mínima recomendada:
 
 ### Tabela de Projetos
-- `id`: identificador Ãºnico do projeto
+- `id`: identificador único do projeto
 - `name`: nome do projeto
-- `description`: descriÃ§Ã£o do projeto
+- `description`: descrição do projeto
 - `status`: status atual do projeto
 - `priority`: prioridade do projeto
 
 ### Tabela de Tarefas
-- `id`: identificador Ãºnico da tarefa
-- `project_id`: referÃªncia ao id do projeto (chave estrangeira)
-- `title`: tÃ­tulo da tarefa
-- `description`: descriÃ§Ã£o da tarefa
+- `id`: identificador único da tarefa
+- `project_id`: referência ao id do projeto (chave estrangeira)
+- `title`: título da tarefa
+- `description`: descrição da tarefa
 - `status`: status atual da tarefa
 - `priority`: prioridade da tarefa
 - `due_date`: data de vencimento
 
 ## Uso da API
 
-### Iniciar uma sessÃ£o
+### Iniciar uma sessão
 
-Para iniciar uma sessÃ£o, envie uma requisiÃ§Ã£o POST para `/rag/session` com os dados dos projetos e tarefas:
+Para iniciar uma sessão, envie uma requisição POST para `/rag/session` com os dados dos projetos e tarefas:
 
 ```bash
 curl -X POST http://localhost:8000/rag/session \
   -H "Content-Type: application/json" \
   -d '{
-    "user_name": "JoÃ£o",
+    "user_name": "João",
     "user_pronoun": "Sr",
     "projects_data": [
       {
@@ -87,7 +87,7 @@ curl -X POST http://localhost:8000/rag/session \
         "name": "App Mobile",
         "description": "Desenvolvimento de app para iOS e Android",
         "status": "planejado",
-        "priority": "mÃ©dia",
+        "priority": "média",
         "deadline": "2025-03-15"
       }
     ],
@@ -96,8 +96,8 @@ curl -X POST http://localhost:8000/rag/session \
         "id": 101,
         "project_id": 1,
         "title": "Criar wireframes",
-        "description": "Desenvolver wireframes para todas as pÃ¡ginas",
-        "status": "concluÃ­da",
+        "description": "Desenvolver wireframes para todas as páginas",
+        "status": "concluída",
         "priority": "alta",
         "due_date": "2024-10-15",
         "assigned_to": "Ana Silva"
@@ -116,39 +116,39 @@ curl -X POST http://localhost:8000/rag/session \
   }'
 ```
 
-Isso retornarÃ¡ um `session_id` que deve ser usado nas consultas subsequentes.
+Isso retornará um `session_id` que deve ser usado nas consultas subsequentes.
 
 ### Enviar uma consulta
 
 Para enviar uma consulta, use o `session_id` recebido anteriormente:
 
 ```bash
-curl -X POST http://localhost:8000/rag/JoÃ£o_1697820000 \
+curl -X POST http://localhost:8000/rag/João_1697820000 \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Quais sÃ£o os projetos com prioridade alta?"
+    "message": "Quais são os projetos com prioridade alta?"
   }'
 ```
 
-### Encerrar uma sessÃ£o
+### Encerrar uma sessão
 
-Para encerrar uma sessÃ£o:
+Para encerrar uma sessão:
 
 ```bash
-curl -X DELETE http://localhost:8000/rag/JoÃ£o_1697820000
+curl -X DELETE http://localhost:8000/rag/João_1697820000
 ```
 
 ## Exemplos de consultas
 
-- "Quais sÃ£o os projetos em andamento?"
+- "Quais são os projetos em andamento?"
 - "Liste todas as tarefas atrasadas"
 - "Qual projeto tem mais tarefas?"
 - "Mostre as tarefas com prioridade alta do projeto X"
-- "Qual Ã© o status do projeto Y?"
+- "Qual é o status do projeto Y?"
 
 ## Formato dos Dados
 
-O sistema Ã© extremamente flexÃ­vel quanto ao formato dos dados de entrada. VocÃª pode fornecer dados em:
+O sistema é extremamente flexível quanto ao formato dos dados de entrada. Você pode fornecer dados em:
 
 ### Formato JSON (Recomendado para Dados Estruturados)
 ```json
@@ -156,7 +156,7 @@ O sistema Ã© extremamente flexÃ­vel quanto ao formato dos dados de entrada. 
   {
     "id": 1,
     "name": "Nome do Projeto",
-    "description": "DescriÃ§Ã£o do projeto",
+    "description": "Descrição do projeto",
     "status": "em andamento",
     "priority": "alta"
   }
@@ -166,45 +166,45 @@ O sistema Ã© extremamente flexÃ­vel quanto ao formato dos dados de entrada. 
 ### Formato de Texto Livre
 ```
 Projeto: Website Redesign
-DescriÃ§Ã£o: Redesenhar o site da empresa
+Descrição: Redesenhar o site da empresa
 Status: Em andamento
 Prioridade: Alta
 
 Projeto: App Mobile
-DescriÃ§Ã£o: Desenvolvimento de app
+Descrição: Desenvolvimento de app
 Status: Planejado
-Prioridade: MÃ©dia
+Prioridade: Média
 ```
 
 ### Formato Tabular/CSV
 ```
-id,nome,descriÃ§Ã£o,status,prioridade
+id,nome,descrição,status,prioridade
 1,Website Redesign,Redesenhar o site,Em andamento,Alta
-2,App Mobile,Desenvolvimento de app,Planejado,MÃ©dia
+2,App Mobile,Desenvolvimento de app,Planejado,Média
 ```
 
 ### Outros Formatos
-O sistema tentarÃ¡ extrair o mÃ¡ximo de informaÃ§Ãµes possÃ­vel, independentemente do formato fornecido. Desde que os dados contenham informaÃ§Ãµes sobre projetos e tarefas, o sistema serÃ¡ capaz de processar e responder a consultas sobre esses dados.
+O sistema tentará extrair o máximo de informações possível, independentemente do formato fornecido. Desde que os dados contenham informações sobre projetos e tarefas, o sistema será capaz de processar e responder a consultas sobre esses dados.
 
-NÃ£o hÃ¡ necessidade de se preocupar com formataÃ§Ã£o especÃ­fica - basta fornecer os dados da forma que vocÃª os tem disponÃ­veis!
+Não há necessidade de se preocupar com formatação específica - basta fornecer os dados da forma que você os tem disponíveis!
 
-## Executando a aplicaÃ§Ã£o
+## Executando a aplicação
 
-Para executar a aplicaÃ§Ã£o localmente:
+Para executar a aplicação localmente:
 
 ```bash
 python supabase_rag.py
 ```
 
-A API estarÃ¡ disponÃ­vel em `http://localhost:8000`.
+A API estará disponível em `http://localhost:8000`.
 
-## SoluÃ§Ã£o de Problemas
+## Solução de Problemas
 
 ### Erro: Missing required environment variables: PORT
 
-Se vocÃª receber este erro ao iniciar a aplicaÃ§Ã£o, hÃ¡ duas soluÃ§Ãµes possÃ­veis:
+Se você receber este erro ao iniciar a aplicação, há duas soluções possíveis:
 
-1. **Adicione a variÃ¡vel PORT ao seu arquivo .env**:
+1. **Adicione a variável PORT ao seu arquivo .env**:
    ```
    PORT=8000
    ```
@@ -214,10 +214,10 @@ Se vocÃª receber este erro ao iniciar a aplicaÃ§Ã£o, hÃ¡ duas soluÃ§Ã
    PORT=8000 python supabase_rag.py
    ```
 
-3. **Modifique o cÃ³digo** para remover PORT da lista de variÃ¡veis obrigatÃ³rias (jÃ¡ implementado na versÃ£o mais recente).
+3. **Modifique o código** para remover PORT da lista de variáveis obrigatórias (já implementado na versão mais recente).
 
 ### Outros erros comuns
 
-- **Erro de conexÃ£o com o Supabase**: Verifique se as credenciais SUPABASE_URL e SUPABASE_SERVICE_KEY estÃ£o corretas.
-- **Erro ao inicializar o Qdrant**: Certifique-se de que o Qdrant estÃ¡ em execuÃ§Ã£o e acessÃ­vel nas configuraÃ§Ãµes fornecidas.
-- **Erro de API Groq ou OpenAI**: Confirme se as chaves de API estÃ£o ativas e possuem crÃ©ditos disponÃ­veis. 
+- **Erro de conexão com o Supabase**: Verifique se as credenciais SUPABASE_URL e SUPABASE_SERVICE_KEY estão corretas.
+- **Erro ao inicializar o Qdrant**: Certifique-se de que o Qdrant está em execução e acessível nas configurações fornecidas.
+- **Erro de API Groq ou OpenAI**: Confirme se as chaves de API estão ativas e possuem créditos disponíveis.
